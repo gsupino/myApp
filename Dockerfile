@@ -1,18 +1,22 @@
-# This image will be based on the official nodejs docker image
+# This image will be based on the oficial nodejs docker image
 FROM node:latest
- 
-# Set in what directory commands will run
+
+# Commands will run in this directory
 WORKDIR /home/app
- 
-# Put all our code inside that directory that lives in the container
+
+# Add all our code inside that directory that lives in the container
 ADD . /home/app
- 
-# Install dependencies
+
+# Install dependencies and generate production dist
+RUN npm update -g npm
 RUN \
-    npm install
- 
+    npm install -g bower gulp && \
+    npm install && \
+    bower install --config.interactive=false --allow-root && \
+    gulp dist
+
 # Tell Docker we are going to use this port
-EXPOSE 9000
- 
+EXPOSE 8080
+
 # The command to run our app when the container is run
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start-prod"]
