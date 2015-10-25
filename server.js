@@ -5,7 +5,7 @@ var app = express();
 
 
 app.get('/', function(req, res) {
-    res.send('You have viewed this page  times!!');
+    res.send('test ok');
 });
 
 http.createServer(app).listen(process.env.PORT || 3000, function() {
